@@ -14,16 +14,14 @@ This document helps diagnose common issues during RustGuard execution.
 
 
 
-- Ensure Minecraft is running on port `25566`.
-
+- Make sure Minecraft is running on the same port as your server.
+- 
 - Make sure `online-mode=false`.
 
-- Verify that `25565` is not in use.    
-
+- Check that the port is not in use
 
 
 ## 🧱 Database
-
 
 
 - Confirm the existence of `rustguard.db`.
