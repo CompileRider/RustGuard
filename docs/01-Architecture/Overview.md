@@ -75,3 +75,38 @@ graph TB
 ## Data Flow
 
 ### Inbound (Client → Server)
+
+```mermaid
+flowchart LR
+%% Edge / client
+C[Client
+(Browser / Mobile / MC Client)] -->|TCP:25565| CDN[Optional CDN / Proxy]
+CDN -->|Forward| LB[Load Balancer / Anycast]
+
+
+%% Fronting web layer
+LB -->|Route TCP| L[TCP Listener :25565
+(RustGuard)]
+L -->|Accept| CH[Connection Handler]
+CH -->|Parse frames| PP[Packet Parser]
+PP -->|Inspect| DE[Detection Engine]
+
+
+%% Action & side-effects
+DE -->|Log / Persist| DB[(SQLite / WAL)]
+DE -->|Alert| DW[Discord Webhook]
+DE -->|Mitigate| RC[RCON Client]
+RC -->|Command| RCON[RCON :25575]
+RCON -->|Control| MS[MC Server :25566]
+
+
+%% Direct proxying
+CH <--> MS
+%% Observability
+DE -->|Metrics / Traces| Logging[Prometheus / OpenTelemetry]
+Logging --> Ops[Ops / SRE]
+
+
+classDef infra fill:#f3f4f6,stroke:#333,stroke-width:1px;
+class L,CH,PP,DE,DB,RC,RCON,MS,Logging infra;
+```
