@@ -307,6 +307,6 @@ proxy:
 ```
 
 ## Related Documents
-- [[Detection-Engine]]
-- [[Packet-Flow]]
-- [[Architecture/Overview]]
+- [Detection-Engine](./Detection-Engine.md)
+- [Packet-Flow](../01-Architecture/Packet-Flow.md)
+- [Architecture/Overview](../01-Architecture/Overview.md)
