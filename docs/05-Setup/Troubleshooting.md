@@ -1,50 +1,51 @@
-### ⚠️ Troubleshooting.md
-
-# Troubleshooting
+Troubleshooting
 
 This document helps diagnose common issues during RustGuard execution.
 
-## 🔌 Proxy-Server Connection
+🔌 Proxy-Server Connection
 
-- Ensure Minecraft is running on port `25566`.
-- Make sure `online-mode=false`.
-- Verify that `25565` is not in use.    
+Ensure Minecraft is running on the configured proxy listen port. Check your configuration file for the value of this property.
 
-## 🧱 Database
+Make sure online-mode=false in your Minecraft server's server.properties.
 
-- Confirm the existence of `rustguard.db`.
-- Check directory permissions.
-- For SQLite, ensure the file is readable.
+Verify that the necessary ports (proxy listen port and API port) are not already in use by another application.
 
-## 🔑 RCON
+🧱 Database
 
-- Port `25575` should be accessible and password correct.
-- RCON is local only; do not expose it publicly.
+Confirm the existence of the database file, typically rustguard.db (for SQLite).
 
-## 🕸️ Webhooks
+Check directory permissions to ensure the RustGuard process can read and write to the database file's location.
 
-- Webhook URL must be valid.
-- Discord channel must have write permissions.
-- Avoid exceeding rate limits.
+For SQLite, ensure the file is readable and writable by the user running the service.
 
-## 🧩 Diagnostic Examples
+🔑 RCON
 
-```rust
+Port 25575 should be accessible, and the password configured in RustGuard must match the server's RCON password.
+
+RCON is designed to be local only; do not expose it publicly.
+
+🕸️ Webhooks
+
+Webhook URL must be valid and properly formatted.
+
+The target Discord channel (or other service) must have write permissions for the webhook.
+
+Avoid exceeding service rate limits by checking for errors in the logs.
+
+🧩 Diagnostic Examples
+
 // Check RCON connection
 let rcon = Rcon::connect("127.0.0.1:25575", "my_password")?;
 rcon.cmd("say Test")?;
-```
 
-```shell
-# Test local API
+
+# Test local API (replace 25565 with your configured API port)
 curl http://localhost:25565/api/status
-```
 
-### 🔄 Resolution Flow
 
-```mermaid
+🔄 Resolution Flow
+
 graph TD
-    P[Problem] --> D[Diagnosis]
-    D --> S[Solution]
-    S --> V[Verification]
-```
+    P[Problem] --> D[Diagnosis: Check Configured Ports/Credentials]
+    D --> S[Solution: Fix Port Conflict/Credential Mismatch]
+    S --> V[Verification: Test Connection]
