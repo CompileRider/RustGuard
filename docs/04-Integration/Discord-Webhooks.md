@@ -118,5 +118,5 @@ integration:
 
 ## Related Documents
 
-[[Action-Handler]] 
-[[Configuration]] 
+[Action-Handler](../02-Core-Componentes/Action-Handler.md)
+[Configuration](../05-Setup/Configuration.md)
