@@ -438,7 +438,7 @@ detection:
 ```
 
 ## Related Documents
-- [[Speed-Hack]]
-- [[Fly-Hack]]
-- [[KillAura]]
-- [[Context-System]] 
+- [Speed-Hack](../03-Detection-Methods/Speed-Hack.md)
+- [Fly-Hack](../03-Detection-Methods/Fly-Hack.md)
+- [KillAura](../03-Detection-Methods/KillAura.md)
+- [Context-System](../03-Detection-Methods/XRay.md)
