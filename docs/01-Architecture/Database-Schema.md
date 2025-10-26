@@ -268,4 +268,4 @@ PRAGMA temp_store = MEMORY;
 ## Related Documents
 
 * [Architecture/Overview](./Overview.md)
-* [Core-Components/Action-Handler](./02-Core-Components/Action-Handler.md)
+* [Core-Components/Action-Handler](./docs/02-Core-Components/Action-Handler.md)
