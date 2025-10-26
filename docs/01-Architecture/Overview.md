@@ -77,34 +77,59 @@ graph TB
 ### Inbound (Client → Server)
 
 ```mermaid
-flowchart LR
-%% Edge / client
-C["Client<br/>(Browser / Mobile / MC Client)"] -->|TCP:25565| CDN["Optional CDN / Proxy"]
-CDN -->|Forward| LB["Load Balancer / Anycast"]
-
-
-%% Fronting web layer
-LB -->|Route TCP| L["TCP Listener<br/>:25565 (RustGuard)"]
+owchart LR
+%% Client → Proxy → Server
+C["Minecraft Client"] -->|TCP :25565| L["RustGuard TCP Listener"]
 L -->|Accept| CH["Connection Handler"]
-CH -->|Parse frames| PP["Packet Parser"]
-PP -->|Inspect| DE["Detection Engine"]
+CH -->|Decode packets| PP["Packet Parser"]
+PP -->|Analyze| DE["Detection Engine"]
 
 
-%% Action & side-effects
-DE -->|Log / Persist| DB[("SQLite / WAL")]
-DE -->|Alert| DW["Discord Webhook"]
+%% Detection Engine Actions
+DE -->|Persist| DB[("SQLite / WAL")]
+DE -->|Notify| DW["Discord Webhook"]
 DE -->|Mitigate| RC["RCON Client"]
-RC -->|Command| RCON["RCON<br/>:25575"]
-RCON -->|Control| MS["MC Server<br/>:25566"]
 
 
-%% Direct proxying
+%% Server communication
+RC -->|Send command| RCON["RCON :25575"]
+RCON -->|Control| MS["MC Server :25566"]
+
+
+%% Main TCP path
 CH <--> MS
-%% Observability
-DE -->|Metrics / Traces| Logging["Prometheus / OpenTelemetry"]
-Logging --> Ops["Ops / SRE"]
+
+
+%% Observabilityfl
+DE -->|Metrics / Logs| MON["Prometheus / OpenTelemetry"]
+MON --> OPS["Ops / SRE"]
 
 
 classDef infra fill:#f3f4f6,stroke:#333,stroke-width:1px;
-class L,CH,PP,DE,DB,RC,RCON,MS,Logging infra;
+class L,CH,PP,DE,DB,RC,RCON,MS,MON infra;
+```
+
+### Outbound (Server → Client)
+
+```mermaid
+flowchart RL
+%% Server → Proxy → Client
+MS["MC Server :25566"] -->|Game packets| CH["Connection Handler"]
+CH -->|Inspect| PP["Packet Parser"]
+PP -->|Filter / Validate| DE["Detection Engine"]
+DE -->|Record| DB[("SQLite / WAL")]
+DE -->|Alerts| DW["Discord Webhook"]
+DE -->|Metrics| MON["Prometheus / OpenTelemetry"]
+
+
+%% Return path
+CH -->|Send packets| C["Minecraft Client"]
+
+
+%% Observability
+MON --> OPS["Ops / SRE"]
+
+
+classDef infra fill:#f3f4f6,stroke:#333,stroke-width:1px;
+class CH,PP,DE,DB,MON,MS,OPS infra;
 ```
