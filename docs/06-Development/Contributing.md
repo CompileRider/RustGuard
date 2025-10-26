@@ -17,7 +17,7 @@ Thank you for considering contributing to RustGuard!
 ### 1. Fork & Clone
 ```bash
 # Fork on GitHub, then:
-git clone https://github.com/YOUR_USERNAME/rustguard
+git clone https://github.com/CompileRider/RustGuard
 cd rustguard
 ```
 
