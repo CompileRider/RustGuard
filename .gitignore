@@ -1,1 +1,26 @@
-/target
+# Rust
+/target/
+Cargo.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Config files con secrets
+config/production.yaml
+*.secret.yaml
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
