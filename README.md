@@ -1,67 +1,73 @@
-# RustGuard - Anti-Cheat Proxy para Minecraft
+# RustGuard - Anti-Cheat Proxy for Minecraft
 
-![Estado del Proyecto](https://img.shields.io/badge/Estado-En%20desarrollo-yellow)
-![Lenguaje](https://img.shields.io/badge/Lenguaje-Rust-blue)
-![Versión](https://img.shields.io/badge/Versión-0.1.0-lightgrey)
+![Project Status](https://img.shields.io/badge/Status-In%20Development-yellow)
+![Language](https://img.shields.io/badge/Language-Rust-blue)
+![Version](https://img.shields.io/badge/Version-0.1.0-lightgrey)
 ![License](https://img.shields.io/badge/License-GPL--3.0-green)
 ![Discord](https://img.shields.io/badge/Discord-Online-7289DA)
 ![Issues](https://img.shields.io/github/issues/usuario/RustGuard-red)
 ![Forks](https://img.shields.io/github/forks/usuario/RustGuard-blue)
 ![Stars](https://img.shields.io/github/stars/usuario/RustGuard-yellow)
 
-## Descripción
+## Description
 
-**RustGuard** es un sistema de detección de trampas en tiempo real para servidores de Minecraft. Funciona como un proxy transparente, sin modificar el servidor existente, y es compatible con cualquier versión de Minecraft configurando correctamente el protocolo.
+**RustGuard** is a real-time cheat detection system for Minecraft servers. It operates as a transparent proxy, requiring no modifications to the existing server, and works with any Minecraft version through proper protocol configuration.
 
-Detecta cheats automáticamente como:
-- Speed hacks
-- Fly hacks
-- Kill Aura
-- X-Ray
-- Auto-clicker
-- Inventory hacks
+Automatically detects cheats such as:
 
-Cada anomalía genera alertas inmediatas en Discord con datos concretos: coordenadas, velocidad, timestamp y tipo de hack detectado.
+* Speed hacks
+* Fly hacks
+* Kill Aura
+* X-Ray
+* Auto-clicker
+* Inventory hacks
 
-## Ventajas
+Each anomaly triggers immediate alerts to Discord with detailed information: coordinates, speed, timestamp, and detected cheat type.
 
-### Para administradores:
-- Detección 24/7 sin supervisión manual
-- Alertas instantáneas en Discord
-- Datos objetivos y verificables
-- Historial de jugadores sospechosos
-- Menos trabajo manual y especulativo
+## Advantages
 
-### Para la comunidad:
-- Juego más justo
-- Mejor experiencia
-- Mayor confianza en el servidor
+### For administrators:
 
-### Técnico:
-- No modifica el servidor
-- Compatible con múltiples versiones
-- Escalable y eficiente
-- Personalizable
+* 24/7 detection without manual supervision
+* Instant Discord alerts
+* Objective and verifiable data
+* History of suspicious players
+* Less manual work and speculation
 
-## Estado del proyecto
+### For the community:
 
-Actualmente en desarrollo, con archivos iniciales preparados. Próximamente:
-- Proxy básico
-- Parsing de posición de jugadores
-- Detección de cheats básicos
-- Webhook de alertas a Discord
+* Fairer gameplay
+* Better overall experience
+* Greater trust in the server
 
-## Posibles expansiones futuras
-- Dashboard web para estadísticas en tiempo real
-- Base de datos de historial de infracciones
-- Integración de Machine Learning
-- API para nuevas detecciones
-- Modelo SaaS para otros servidores
+### Technical:
 
-## Cómo contribuir
+* Does not modify the server
+* Compatible with multiple versions
+* Scalable and efficient
+* Fully customizable
 
-Cualquier idea, sugerencia o contribución será bienvenida.
+## Project Status
 
-## Licencia
+Currently under active development with initial setup completed. Upcoming features:
 
-Este proyecto está bajo **GNU General Public License v3.0 (GPL-3.0)**
+* Basic proxy functionality
+* Player position parsing
+* Basic cheat detection
+* Discord alert webhooks
+
+## Future Expansion
+
+* Web dashboard for real-time statistics
+* Violation history database
+* Machine Learning integration
+* API for new detections
+* SaaS model for external servers
+
+## How to Contribute
+
+Ideas, suggestions, and contributions are all welcome.
+
+## License
+
+This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.
