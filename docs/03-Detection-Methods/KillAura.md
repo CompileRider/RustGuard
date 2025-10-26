@@ -87,10 +87,3 @@ impl KillAuraDetector {
 1. **Server Lag:** If packet delays are high, rotation deltas may appear large. Apply tolerance for low `packet_frequency` players.
     
 2. **Pointer Context:** Normal pointer movement history is required. Perfect constant rotations are suspicious; small human micro-corrections indicate fair play.
-    
-
-## Related Documents
-
-[[Detection-Engine]] 
-[[Context-System]] 
-[[Configuration]] 
