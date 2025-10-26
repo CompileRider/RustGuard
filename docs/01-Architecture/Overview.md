@@ -79,32 +79,30 @@ graph TB
 ```mermaid
 flowchart LR
 %% Edge / client
-C[Client
-(Browser / Mobile / MC Client)] -->|TCP:25565| CDN[Optional CDN / Proxy]
-CDN -->|Forward| LB[Load Balancer / Anycast]
+C["Client<br/>(Browser / Mobile / MC Client)"] -->|TCP:25565| CDN["Optional CDN / Proxy"]
+CDN -->|Forward| LB["Load Balancer / Anycast"]
 
 
 %% Fronting web layer
-LB -->|Route TCP| L[TCP Listener :25565
-(RustGuard)]
-L -->|Accept| CH[Connection Handler]
-CH -->|Parse frames| PP[Packet Parser]
-PP -->|Inspect| DE[Detection Engine]
+LB -->|Route TCP| L["TCP Listener<br/>:25565 (RustGuard)"]
+L -->|Accept| CH["Connection Handler"]
+CH -->|Parse frames| PP["Packet Parser"]
+PP -->|Inspect| DE["Detection Engine"]
 
 
 %% Action & side-effects
-DE -->|Log / Persist| DB[(SQLite / WAL)]
-DE -->|Alert| DW[Discord Webhook]
-DE -->|Mitigate| RC[RCON Client]
-RC -->|Command| RCON[RCON :25575]
-RCON -->|Control| MS[MC Server :25566]
+DE -->|Log / Persist| DB[("SQLite / WAL")]
+DE -->|Alert| DW["Discord Webhook"]
+DE -->|Mitigate| RC["RCON Client"]
+RC -->|Command| RCON["RCON<br/>:25575"]
+RCON -->|Control| MS["MC Server<br/>:25566"]
 
 
 %% Direct proxying
 CH <--> MS
 %% Observability
-DE -->|Metrics / Traces| Logging[Prometheus / OpenTelemetry]
-Logging --> Ops[Ops / SRE]
+DE -->|Metrics / Traces| Logging["Prometheus / OpenTelemetry"]
+Logging --> Ops["Ops / SRE"]
 
 
 classDef infra fill:#f3f4f6,stroke:#333,stroke-width:1px;
