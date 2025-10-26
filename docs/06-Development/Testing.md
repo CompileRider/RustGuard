@@ -51,5 +51,5 @@ QA success is measured by these key metrics:
 
 ### Related Documents
 
-[[False-Positives]]
-[[Performance]] 
+[False-Positives](../03-Detection-Methods/False-Positives.md)
+[Performance](./Perfomance.md)
