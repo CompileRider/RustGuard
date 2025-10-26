@@ -63,9 +63,3 @@ Fly detection is prone to false positives due to environmental interactions. The
 $$\text{Confidence} = \left( \frac{Y_{\text{delta}}}{\text{MaxJumpHeight}} - 1 \right) \times 2.0$$
 
 The result is clamped between $0.0$ and $1.0$. If the observed vertical velocity is twice the allowed maximum, the confidence score is `1.0`.
-
-### Related Documents
-
-- [[Speed-Hack]]
-- [[KillAura]]
-- [[Context-System]] 
