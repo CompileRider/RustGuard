@@ -91,10 +91,3 @@ impl XRayDetector {
 - **Exploratory Tunnels:** If the player mines long straight tunnels (indicating exploration), the VBR threshold is temporarily relaxed.
     
 - **Coordinates Check:** Players with high VBR at very low Y coordinates (Y < 10) are more suspicious.
-    
-
-## Related Documents
-
-[[Detection-Engine]] 
-[[Context-System]] 
-[[Configuration]] 
