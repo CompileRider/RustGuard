@@ -1,7 +1,8 @@
 # Database Schema
 
 ## Entity Relationship Diagram
-```mermaid
+
+```sql
 erDiagram
     PLAYERS ||--o{ DETECTIONS : "has many"
     PLAYERS ||--o{ SESSIONS : "participates in"
@@ -65,6 +66,7 @@ erDiagram
 ## Table Definitions
 
 ### players
+
 ```sql
 CREATE TABLE players (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -83,6 +85,7 @@ CREATE INDEX idx_players_banned ON players(banned);
 ```
 
 ### detections
+
 ```sql
 CREATE TABLE detections (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -106,6 +109,7 @@ CREATE INDEX idx_detections_confidence ON detections(confidence);
 ```
 
 ### detection_types
+
 ```sql
 CREATE TABLE detection_types (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -125,6 +129,7 @@ INSERT INTO detection_types (name, description, default_severity) VALUES
 ```
 
 ### sessions
+
 ```sql
 CREATE TABLE sessions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -143,6 +148,7 @@ CREATE INDEX idx_sessions_connected ON sessions(connected_at);
 ```
 
 ### player_stats
+
 ```sql
 CREATE TABLE player_stats (
     player_id INTEGER PRIMARY KEY,
@@ -159,8 +165,9 @@ CREATE TABLE player_stats (
 ## Common Queries
 
 ### Top Cheaters
+
 ```sql
-SELECT 
+SELECT
     p.username,
     COUNT(d.id) as detection_count,
     AVG(d.confidence) as avg_confidence
@@ -173,8 +180,9 @@ LIMIT 10;
 ```
 
 ### Detection Summary
+
 ```sql
-SELECT 
+SELECT
     dt.name,
     COUNT(d.id) as count,
     AVG(d.confidence) as avg_confidence,
@@ -187,8 +195,9 @@ GROUP BY dt.id;
 ```
 
 ### Player History
+
 ```sql
-SELECT 
+SELECT
     d.detected_at,
     dt.name as cheat_type,
     d.confidence,
@@ -202,6 +211,7 @@ LIMIT 50;
 ```
 
 ### Trust Score Calculation
+
 ```sql
 UPDATE player_stats
 SET trust_score = (
@@ -217,9 +227,10 @@ WHERE player_id = ?;
 ## Data Retention
 
 ### Recommended Policies
+
 ```sql
 -- Delete old sessions (keep 30 days)
-DELETE FROM sessions 
+DELETE FROM sessions
 WHERE disconnected_at < strftime('%s', 'now', '-30 days');
 
 -- Archive old detections (keep 90 days)
@@ -231,6 +242,7 @@ AND review_status != 'pending';
 ```
 
 ## Backup Strategy
+
 ```bash
 # Daily backup
 sqlite3 rustguard.db ".backup rustguard_backup_$(date +%Y%m%d).db"
@@ -245,6 +257,7 @@ tar -czf rustguard_$(date +%Y%m%d).tar.gz rustguard.db logs/
 2. **Batch inserts** - Use transactions
 3. **WAL mode** - Better concurrency
 4. **Pragma optimize** - Run periodically
+
 ```sql
 PRAGMA journal_mode = WAL;
 PRAGMA synchronous = NORMAL;
@@ -253,5 +266,6 @@ PRAGMA temp_store = MEMORY;
 ```
 
 ## Related Documents
-- [[Architecture/Overview]]
-- [[Core-Components/Action-Handler]] 
+
+* [Architecture/Overview](./Architecture/Overview.md)
+* [Core-Components/Action-Handler](./Core-Components/Action-Handler.md)
