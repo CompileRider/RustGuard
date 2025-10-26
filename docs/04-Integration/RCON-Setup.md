@@ -86,5 +86,5 @@ integration:
 
 ## Related Documents
 
-[[Action-Handler]] 
-[[Configuration]] 
+[Action-Handler](../02-Core-Components/Action-Handler.md)
+[Configuration](../05-Setup/Configuration.md)
