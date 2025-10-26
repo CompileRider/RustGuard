@@ -6,10 +6,10 @@
 
 ### 📐 Architecture
 
-- [[01-Architecture/Overview|Architecture Overview]]
-- [[01-Architecture/Packet-Flow|Packet Flow]]
-- [[01-Architecture/Database-Schema|Database Schema]]
-- [[01-Architecture/Technology-Stack|Technology Stack]]
+- [Architecture Overview](01-Architecture/Overview.md)
+- [Packet Flow](01-Architecture/Packet-Flow.md)
+- [Database Schema](01-Architecture/Database-Schema.md)
+- [Technology Stack](01-Architecture/Technology-Stack.md)
 
 ### ⚙️ Core Components
 
