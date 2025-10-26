@@ -125,3 +125,54 @@ Brief description of changes
 
 
 ## Project Structure
+```mermaid
+sequenceDiagram
+    participant C as 💻 Client
+    participant P as 🛡️ Proxy
+    participant PP as 📨 Parser
+    participant DE as 🔍 Detector
+    participant AC as ⚡ Action
+    participant DB as 🗄️ Database
+    participant D as 📢 Discord
+    participant R as 🖥️ RCON
+    participant S as 🖲️ Server
+
+    C->>P: PlayerPosition packet
+    activate P
+
+    P->>P: Buffer packet
+    P->>PP: Parse raw bytes
+
+    activate PP
+    PP->>PP: Identify packet type
+    PP->>PP: Deserialize data
+    PP-->>P: Parsed packet
+    deactivate PP
+
+    P->>DE: Analyze packet
+    activate DE
+
+    DE->>DE: Check speed
+    DE->>DE: Check context
+    DE->>DE: Calculate confidence
+
+    alt Legitimate
+        DE-->>P: OK
+        P->>S: Forward packet
+        S-->>C: Server response
+    else Suspicious (low confidence)
+        DE->>AC: Log only
+        AC->>DB: Write to database
+        P->>S: Forward packet
+        S-->>C: Server response
+    else Cheating (high confidence)
+        DE->>AC: Take action
+        AC->>DB: Log to database
+        AC->>D: Alert Discord
+        AC->>R: Execute RCON kick
+        AC-->>C: Disconnect
+    end
+
+    deactivate DE
+    deactivate P
+```
