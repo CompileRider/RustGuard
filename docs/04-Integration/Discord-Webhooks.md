@@ -118,6 +118,6 @@ integration:
 
 ## Related Documents
 
-[Action-Handler](../02-Core-Componentes/Action-Handler.md)
+[Action-Handler](../02-Core-Components/Action-Handler.md)
 
 [Configuration](../05-Setup/Configuration.md)
