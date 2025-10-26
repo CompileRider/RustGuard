@@ -1,8 +1,8 @@
 ## 🧩 02-Core-Components/Context-System.md
 
-### Descripción General
+### Overview
 
-El **Sistema de Contexto** administra los estados dinámicos de cada jugador (efectos, entorno, equipo, velocidad, etc.) y provee esta información a los detectores para ajustar la sensibilidad de las verificaciones.
+The **Context System** manages dynamic player states (effects, environment, equipment, speed, etc.) and provides this information to detection modules to adjust the sensitivity of checks.
 
 ```mermaid
 graph TD
@@ -14,20 +14,18 @@ graph TD
     D --> E
 ```
 
+### Responsibilities
 
-### Responsabilidades
+- Maintain the history of each player's states.
+- Provide reliable and up-to-date data for detection modules.
+- Synchronize with the server via the Proxy Layer.
 
-- Mantener el historial de estados del jugador.
-- Proveer datos confiables y actualizados para los módulos de detección.
-- Sincronizar con el servidor (via Proxy Layer).
-    
+### Stored Data
 
-### Datos Almacenados
-
-|Atributo|Tipo|Descripción|
+|Attribute|Type|Description|
 |---|---|---|
-|`is_sprinting`|bool|Si el jugador está corriendo|
-|`in_water`|bool|Determina si el jugador está en agua|
-|`active_effects`|HashMap|Lista de efectos activos (pociones, encantamientos)|
-|`last_y_position`|f64|Última posición vertical registrada|
-|`timestamp`|i64|Momento del último paquete procesado|
+|`is_sprinting`|bool|Whether the player is sprinting|
+|`in_water`|bool|Indicates if the player is in water|
+|`active_effects`|HashMap|List of active effects (potions, enchantments)|
+|`last_y_position`|f64|Last recorded vertical position|
+|`timestamp`|i64|Time of the last processed packet|

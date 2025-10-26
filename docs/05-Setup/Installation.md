@@ -18,7 +18,7 @@
 ### Method 1: From Source (Recommended)
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/rustguard
+git clone https://github.com/CompileRider/RustGuard
 cd rustguard
 
 # Build release version
@@ -70,7 +70,7 @@ white-list=true
 
 ### 2. RustGuard Configuration
 
-Create `config/default.yaml`:
+Create `config/config.yaml`:
 ```yaml
 proxy:
   listen_address: "0.0.0.0:25565"  # Players connect here
@@ -192,7 +192,7 @@ COPY --from=builder /app/target/release/rustguard /usr/local/bin/
 COPY config /etc/rustguard/
 
 EXPOSE 25565
-CMD ["rustguard", "--config", "/etc/rustguard/default.yaml"]
+CMD ["rustguard", "--config", "/etc/rustguard/config.yaml"]
 ```
 
 Run:

@@ -1,104 +1,91 @@
-# Documentación de RustGuard
+# RustGuard Documentation
 
-> Proxy Anti-Cheat para Minecraft escrito en Rust
+> Minecraft Anti-Cheat Proxy written in Rust
 
-## 🎯 Navegación Rápida
+## 🎯 Quick Navigation
 
-### 📐 Arquitectura
+### 📐 Architecture
 
-- [[01-Arquitectura/Vision-General|Visión General de la Arquitectura]]
-- [[01-Arquitectura/Flujo-de-Paquetes|Flujo de Paquetes]]
-- [[01-Arquitectura/Esquema-de-Base-de-Datos|Esquema de Base de Datos]]
-- [[01-Arquitectura/Pila-Tecnologica|Pila Tecnológica]]
+- [[01-Architecture/Overview|Architecture Overview]]
+- [[01-Architecture/Packet-Flow|Packet Flow]]
+- [[01-Architecture/Database-Schema|Database Schema]]
+- [[01-Architecture/Technology-Stack|Technology Stack]]
 
-### ⚙️ Componentes Principales
+### ⚙️ Core Components
 
-- [[02-Componentes-Nucleares/Capa-Proxy|Capa Proxy]]
-- [[02-Componentes-Nucleares/Motor-de-Deteccion|Motor de Detección]]
-- [[02-Componentes-Nucleares/Manejador-de-Acciones|Manejador de Acciones]]
-- [[02-Componentes-Nucleares/Sistema-de-Contexto|Sistema de Contexto]]
+- [[02-Core-Components/Proxy-Layer|Proxy Layer]]
+- [[02-Core-Components/Detection-Engine|Detection Engine]]
+- [[02-Core-Components/Action-Handler|Action Handler]]
+- [[02-Core-Components/Context-System|Context System]]
 
-### 🎯 Métodos de Detección
+### 🎯 Detection Methods
 
-- [[03-Metodos-de-Deteccion/Speed-Hack|Detección de Speed Hack]]
-- [[03-Metodos-de-Deteccion/Fly-Hack|Detección de Fly Hack]]
-- [[03-Metodos-de-Deteccion/KillAura|Detección de KillAura]]
-- [[03-Metodos-de-Deteccion/XRay|Detección de XRay]]
-- [[03-Metodos-de-Deteccion/Falsos-Positivos|Prevención de Falsos Positivos]]
+- [[03-Detection-Methods/Speed-Hack|Speed Hack Detection]]
+- [[03-Detection-Methods/Fly-Hack|Fly Hack Detection]]
+- [[03-Detection-Methods/KillAura|KillAura Detection]]
+- [[03-Detection-Methods/XRay|XRay Detection]]
+- [[03-Detection-Methods/False-Positives|Preventing False Positives]]
 
-### 🔌 Integración
+### 🔌 Integration
 
-- [[04-Integracion/Configuracion-RCON|Configuración de RCON]] 
-- [[04-Integracion/Webhooks-Discord|Webhooks de Discord]]
-- [[04-Integracion/Puente-Java|Plugin Puente Java]]
-- [[04-Integracion/Compatibilidad-MythicMobs|Compatibilidad con MythicMobs]]
+- [[04-Integration/RCON-Setup|RCON Setup]] 
+- [[04-Integration/Discord-Webhooks|Discord Webhooks]] 
 
-### 📦 Instalación y Uso
+### 📦 Setup & Usage
 
-- [[05-Instalacion/Instalacion|Instalación]]    
-- [[05-Instalacion/Configuracion|Configuración]]
-- [[05-Instalacion/Primera-Ejecucion|Primera Ejecución]]
-- [[05-Instalacion/Solucion-de-Problemas|Solución de Problemas]]
+- [[05-Setup/Installation|Installation]]    
+- [[05-Setup/Configuration|Configuration]]
+- [[05-Setup/First-Run|First Run]]
+- [[05-Setup/Troubleshooting|Troubleshooting]]
 
-### 🛠️ Desarrollo
+### 🛠️ Development
 
-- [[06-Desarrollo/Hoja-de-Ruta|Hoja de Ruta del Proyecto]]
-- [[06-Desarrollo/Guia-de-Contribucion|Guía de Contribución]]
-- [[06-Desarrollo/Estrategia-de-Pruebas|Estrategia de Pruebas]]
-- [[06-Desarrollo/Optimizacion-de-Rendimiento|Optimización de Rendimiento]]
+- [[06-Development/Project-Roadmap|Project Roadmap]]
+- [[06-Development/Contributing|Contributing Guide]]
+- [[06-Development/Testing|Testing Strategy]]
+- [[06-Development/Performance|Performance Optimization]]
 
-### 🌐 Referencia API
+### 🌐 API Reference
 
-- [[07-API/Endpoints-HTTP|Endpoints HTTP]]    
-- [[07-API/Comandos-RCON|Comandos RCON]]
-- [[07-API/Webhooks|Cargas Útiles de Webhook]]
+- [[07-API/HTTP-Endpoints|HTTP Endpoints]]    
+- [[07-API/RCON-Commands|RCON Commands]]
+- [[07-API/Webhooks|Webhook Payloads]]
 
 ---
 
-## 📊 Estado del Proyecto
+## 📊 Project Status
 
-### Completado
+### Completed
 
--  Estructura del proyecto
--  Marco de documentación
+- Project structure
+- Documentation framework
 
-### En Progreso
+### In Progress
 
--  Implementación del proxy TCP
--  Análisis de paquetes con Azalea
--  Detección de speed hack
+- TCP Proxy implementation
+- Packet parsing with Azalea
+- Speed hack detection
 
-### Planeado
+### Planned
 
--  Detección de fly hack
--  Detección de KillAura
--  Integración RCON
--  Webhooks de Discord
--  Base de datos SQLite
--  Sistema de contexto
--  Interfaz de panel (Dashboard UI)
+- Fly hack detection
+- KillAura detection
+- RCON integration
+- Discord webhooks
+- SQLite database
+- Context system
+- Dashboard UI
 
 ---
 
-## 🚀 Inicio Rápido
+## 🚀 Quick Start
 
 ```bash
-# Compilar
+# Build
 cargo build --release
 
-# Ejecutar
+# Run
 ./target/release/rustguard
 
-# Probar
+# Test
 cargo test
-```
-
----
-
-## 📝 Notas
-
-- Este es un documento en constante evolución.
-    
-- Se actualiza conforme se implementan nuevas funciones.
-    
-- Consulta [[06-Desarrollo/Hoja-de-Ruta]] para conocer la línea de tiempo.

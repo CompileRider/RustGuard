@@ -1,25 +1,25 @@
-# Detección de XRay
+# XRay Detection
 
-## Descripción General
+## Overview
 
-El cheat XRay (Rayos X) permite a los jugadores ver y localizar bloques valiosos u ocultos (como diamantes o bases secretas). Dado que RustGuard es un proxy que solo ve el tráfico de red, no tiene acceso directo al estado del mundo del servidor. Por lo tanto, el detector de XRay se centra en el análisis de **patrones de interacción de bloques anómalos**.
+XRay is a cheat that allows players to see and locate valuable or hidden blocks (like diamonds or secret bases). Since RustGuard operates as a network proxy, it does not have direct access to the server world state. Therefore, XRay detection focuses on analyzing **anomalous block interaction patterns**.
 
-## Principio de Detección
+## Detection Principle
 
-La detección de XRay se basa en la improbabilidad estadística de las acciones del jugador:
+XRay detection relies on the statistical improbability of player actions:
 
-1. **Patrón de Minería No Natural (Mining Pattern Analysis):** La minería debe seguir un patrón lógico (ej. túneles rectos, cuevas exploradas). Minar directamente hacia un bloque valioso enterrado, ignorando cientos de bloques intermedios, es una señal de XRay.
+1. **Mining Pattern Analysis:** Legitimate mining follows logical patterns (e.g., straight tunnels, explored caves). Mining directly toward a buried valuable block while ignoring hundreds of intermediate blocks is a strong XRay signal.
     
-2. **Frecuencia Anómala de Interacción con Bloques Valiosos (VBI - Valuable Block Interaction):** Monitorea la frecuencia con la que un jugador se detiene a minar un VBI (ej. Diamante, Esmeralda) inmediatamente después de minar un bloque "basura" (ej. Cobblestone, Dirt).
+2. **Valuable Block Interaction (VBI) Frequency:** Monitors how often a player mines a valuable block (like Diamond or Emerald) immediately after mining non-valuable blocks (like Cobblestone or Dirt).
     
 
-## Componente Clave: Historial de Bloques Minados
+## Key Component: Mined Blocks History
 
-El `PlayerState` de cada jugador mantiene una cola de los últimos $N$ bloques minados para su análisis.
+Each `PlayerState` maintains a queue of the last $N$ mined blocks for analysis.
 
 ```rust
 pub struct PlayerState {
-    // ... otros campos
+    // ... other fields
     pub mined_blocks_history: VecDeque<MinedBlock>, // N = 100
     pub valuable_blocks_mined: u32,
     pub non_valuable_blocks_mined: u32,
@@ -33,29 +33,30 @@ pub struct MinedBlock {
 }
 ```
 
+## Detection Algorithm (VBI Ratio)
 
-## Algoritmo de Detección (VBI Ratio)
+The detector calculates the **Valuable Block Ratio (VBR)** over a rolling time window.
 
-El detector calcula el **Valuable Block Ratio (VBR)** para el jugador en un período de tiempo rodante.
+1. **Calculate the Success Ratio:**
+    
 
-1. **Cálculo de la Razón de Éxito:**
+$$  
+\text{VBR} = \frac{\text{ValuableBlocksMined}}{\text{TotalBlocksMined in last 10 minutes}}  
+$$
+
+2. **Suspicion Threshold:** Compare VBR against a dynamic threshold.
     
-    $$\\ \text{VBR} = \frac{\text{ValuableBlocksMinados}}{\text{TotalBlocksMinados en últimos 10 minutos}}$$
+
+- A legitimate player who mined 5 diamonds out of 1000 stone has a low VBR (0.005).
     
-    $$$$
+- An XRay player who mined 5 diamonds out of only 50 stone to reach them has a high VBR (0.09).
     
-2. **Umbral de Sospecha:** Se compara el VBR contra un umbral dinámico.
-    
-    - Un jugador que minó 5 diamantes y 1000 de piedra tendrá un VBR bajo (0.005).
-        
-    - Un jugador XRay que minó 5 diamantes y solo 50 de piedra para llegar a ellos tendrá un VBR alto (0.09).
-        
 
 ```rust
 impl XRayDetector {
     async fn check(&self, player: &PlayerState, block: &MinedBlock) -> Option<Detection> {
         player.mined_blocks_history.push_back(block.clone());
-        player.update_block_counts(block); // Actualiza los contadores VBI/Non-VBI
+        player.update_block_counts(block); // Updates VBI/Non-VBI counters
 
         if player.mined_blocks_history.len() < self.config.min_history_size {
             return None;
@@ -83,16 +84,17 @@ impl XRayDetector {
 }
 ```
 
+## False Positive Mitigation
 
-## Mitigación de Falsos Positivos
-
-- **Minería de Superficie:** La minería en la superficie (Y > 60) no debe contar para el VBR, ya que el jugador puede ver los bloques valiosos (carbón, hierro expuesto).
+- **Surface Mining:** Mining above Y > 60 is ignored since valuable blocks are naturally visible.
     
-- **Señales de Búsqueda:** Si el jugador mina túneles largos y rectos (indicando búsqueda), el umbral de VBR se relaja temporalmente.
+- **Exploratory Tunnels:** If the player mines long straight tunnels (indicating exploration), the VBR threshold is temporarily relaxed.
     
-- **Coordenadas:** Los jugadores con alta puntuación VBR a coordenadas Y muy bajas (Y < 10) son más sospechosos.
+- **Coordinates Check:** Players with high VBR at very low Y coordinates (Y < 10) are more suspicious.
     
 
-## Documentos Relacionados
+## Related Documents
 
-[[Detection-Engine]] [[Context-System]] [[Configuration]]
+[[Detection-Engine]] 
+[[Context-System]] 
+[[Configuration]] 

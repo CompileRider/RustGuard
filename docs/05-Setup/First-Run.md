@@ -1,49 +1,44 @@
 ### 🧩 First-Run.md
 
 ````
-# Primer Inicio
+# First Run
 
-RustGuard está listo para su primera ejecución tras configurar `config.yml`. Este documento guía al usuario para iniciar el proxy, verificar su funcionamiento y validar que la conexión con Minecraft sea correcta.
+RustGuard is ready for its first execution after configuring `config.yml`. This document guides the user to start the proxy, verify its operation, and validate that the connection to Minecraft is correct.
 
-## 🚀 Ejecución Inicial
+## 🚀 Initial Execution
 
 ```bash
 cargo run --release
 ````
 
-O, si ya fue compilado:
+Or, if already compiled:
 
 ```
 ./target/release/rustguard
 ```
 
-### ✅ Verificación
+### ✅ Verification
 
-- El proxy escucha en `25565`.
-- El servidor Minecraft debe estar en `localhost:25566`.
-- Mensaje esperado en consola:
-    
+- The proxy listens on `25565`.
+- The Minecraft server must be at `localhost:25566`.
+- Expected console message:
 
 ```
-[INFO] RustGuard proxy iniciado en :25565
+[INFO] RustGuard proxy started on :25565
 ```
 
-### 🧠 Recomendaciones
+### 🧠 Recommendations
 
-- Ejecutar en `tmux` o `screen`.
-- Revisar logs en `logs/latest.log`.
-- Conectar con cliente Minecraft para test de funcionalidad.
-
-### 🌐 Flujo Inicial
+- Run inside `tmux` or `screen`.
+- Check logs at `logs/latest.log`.
+- Connect with Minecraft client to test functionality.
+### 🌐 Initial Flow
 
 ```mermaid
 graph TB
-    C[Cliente Minecraft] --> RP[RustGuard Proxy :25565]
-    RP --> MS[Servidor Minecraft :25566]
+    C[Minecraft Client] --> RP[RustGuard Proxy :25565]
+    RP --> MS[Minecraft Server :25566]
     RP --> DE[Detection Engine]
     DE --> RC[RCON Client]
     DE --> DW[Discord Webhook]
 ```
-
-
----

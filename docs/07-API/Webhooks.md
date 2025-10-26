@@ -1,45 +1,45 @@
-# Webhooks de Eventos
+# Event Webhooks
 
-## Descripción General
+## Overview
 
-Los Webhooks de RustGuard proporcionan una manera de enviar notificaciones de eventos en tiempo real a sistemas externos (como bots de Discord, sistemas de monitorización o herramientas de moderación web). A diferencia de la API pública que es para consulta, los Webhooks son un mecanismo de **notificación de salida unidireccional** (outbound).
+RustGuard Webhooks provide a way to send real-time event notifications to external systems (such as Discord bots, monitoring systems, or web moderation tools). Unlike the public API, which is for querying, Webhooks are a **one-way outbound notification mechanism**.
 
-**Uso:** Notificar inmediatamente sobre acciones de alta gravedad (Kick, Ban, Advertencias).
+**Use Case:** Immediately notify about high-severity actions (Kick, Ban, Warnings).
 
-## Configuración y Seguridad
+## Configuration and Security
 
-1. **URL de Destino:** La URL de destino del Webhook se configura en el archivo `Configuration.md` bajo la sección `notifications.webhooks`.
+1. **Destination URL:** The Webhook target URL is configured in the `Configuration.md` file under the section `notifications.webhooks`.
     
-2. **Firma del Mensaje (Opcional):** Para verificar que la solicitud proviene de una fuente legítima de RustGuard, se puede configurar un secreto. El hash SHA256 del cuerpo del mensaje se incluye en la cabecera.
+2. **Message Signature (Optional):** To verify that the request comes from a legitimate RustGuard source, a secret can be configured. The SHA256 hash of the message body is included in the header.
     
 
-|Cabecera|Valor|
+|Header|Value|
 |---|---|
 |`Content-Type`|`application/json`|
-|`X-RG-Signature`|`sha256=<hash_del_cuerpo>`|
+|`X-RG-Signature`|`sha256=<body_hash>`|
 
-## Estructura del Payload
+## Payload Structure
 
-Todos los eventos de Webhook se envían como una solicitud `POST` con un cuerpo JSON.
+All Webhook events are sent as a `POST` request with a JSON body.
 
-|Clave|Tipo|Descripción|
+|Key|Type|Description|
 |---|---|---|
-|`event_type`|String|Tipo de evento (ej. `player_kicked`, `player_banned`, `high_warning`).|
-|`timestamp`|Integer|Marca de tiempo Unix del evento (segundos).|
-|`data`|Objeto|Contiene los detalles específicos del evento.|
+|`event_type`|String|Event type (e.g., `player_kicked`, `player_banned`, `high_warning`).|
+|`timestamp`|Integer|Unix timestamp of the event (seconds).|
+|`data`|Object|Contains the specific details of the event.|
 
-## Detalles del Objeto `data` (Evento de Sanción)
+## `data` Object Details (Punishment Event)
 
-|Clave|Tipo|Descripción|
+|Key|Type|Description|
 |---|---|---|
-|`uuid`|String|UUID de Mojang del jugador afectado.|
-|`username`|String|Nombre de usuario del jugador.|
-|`action`|String|La acción ejecutada (`KICK`, `BAN`, o `WARN`).|
-|`cheat_type`|String|El método de trampa detectado (ej. `fly_hack`, `killaura`).|
-|`confidence`|Float|Puntuación final de confianza que llevó a la acción (0.0-1.0).|
-|`reason`|String|Razón completa utilizada en el comando RCON/mensaje de advertencia.|
+|`uuid`|String|Mojang UUID of the affected player.|
+|`username`|String|Username of the player.|
+|`action`|String|Action executed (`KICK`, `BAN`, or `WARN`).|
+|`cheat_type`|String|Type of cheat detected (e.g., `fly_hack`, `killaura`).|
+|`confidence`|Float|Final confidence score that led to the action (0.0-1.0).|
+|`reason`|String|Full reason used in the RCON command/warning message.|
 
-## Ejemplo de Payload (Evento `player_kicked`)
+## Example Payload (`player_kicked` Event)
 
 ```json
 {
@@ -56,8 +56,8 @@ Todos los eventos de Webhook se envían como una solicitud `POST` con un cuerpo 
 }
 ```
 
-## Documentos Relacionados
+## Related Documents
 
 - [[Configuration]]
 - [[Discord-Webhooks]]
-- [[Action-Handler]] 
+- [[Action-Handler]]

@@ -1,74 +1,68 @@
-## Configuración
+## RustGuard Configuration
 
-### Descripción General
+### Overview
 
-**RustGuard** se configura mediante un único archivo YAML llamado `config.yml`. Este formato se prefiere sobre JSON debido a su legibilidad para los humanos y su compatibilidad con comentarios. La configuración se carga al inicio mediante la librería **Serde** y permanece **inmutable** durante toda la ejecución del proceso.
+RustGuard is configured using a YAML file called `config.yml`. This file defines all the necessary parameters for the operation of the proxy, cheat detection, and integration with external services.
 
-### Estructura Raíz
+### Main Sections
 
-El archivo de configuración está organizado en cuatro secciones principales:
+1. **proxy** – Configuration of the proxy server and network.
+2. **database** – Storage parameters and log retention.
+3. **detection** – Sensitivity settings for each cheat module.
+4. **integration** – Connection with external services like Discord and RCON.
 
-1. **proxy** – Configuración de red y del servidor proxy principal.
-2. **database** – Opciones de almacenamiento y registro de eventos.
-3. **detection** – Parámetros de sensibilidad y ajustes de los módulos de detección.
-4. **integration** – Configuraciones de conexión con servicios externos como Discord o RCON.
-
----
-
-### Ejemplo de Configuración
+### Example `config.yml`
 
 ```yaml
 proxy:
-  bind_address: "0.0.0.0:25565"  # Dirección y puerto donde escucha el proxy
-  target_address: "127.0.0.1:25566"  # Servidor de Minecraft destino
+  bind_address: "0.0.0.0:25565"
+  target_address: "127.0.0.1:25566"
   max_players: 100
-  motd: "§6RustGuard §fProxy Activo"
+  motd: "§6RustGuard §fProxy Active"
 
-  # Configuración de seguridad de conexión
   rate_limit:
     enabled: true
     max_connections_per_ip: 5
     time_window: 10s
 
 database:
-  path: "./data/rustguard.db"  # Ruta al archivo SQLite
-  log_retention_days: 30        # Días que se conservarán los registros
+  path: "./data/rustguard.db"
+  log_retention_days: 30
 
 detection:
   flyhack:
     enabled: true
-    y_tolerance: 0.05           # Tolerancia al movimiento vertical (en bloques)
-    alert_threshold: 0.85       # Nivel de confianza mínimo para generar una alerta
+    y_tolerance: 0.05
+    alert_threshold: 0.85
 
   speedhack:
     enabled: true
-    horizontal_tolerance: 0.12  # Margen de error para el movimiento horizontal
+    horizontal_tolerance: 0.12
     alert_threshold: 0.9
 
 integration:
   discord:
     enabled: true
     webhook_url: "https://discord.com/api/webhooks/..."
-    alert_format: "**{player}** detectado por {module} (confianza: {confidence})"
+    alert_format: "**{player}** detected by {module} (confidence: {confidence})"
 
   rcon:
     enabled: true
     address: "127.0.0.1:25575"
-    password: "clave_segura"
-    on_detect_action: "kick {player} [RustGuard] Comportamiento anómalo detectado"
+    password: "secure_password"
+    on_detect_action: "kick {player} [RustGuard] Anomalous behavior detected"
 ```
 
----
+### Configuration Validations
 
-### Detalles de Carga
-
-Durante la inicialización, RustGuard realiza las siguientes validaciones:
-
-- **Estructura y tipos:** Verifica que todas las claves esperadas existan y sean del tipo correcto.
+- **Structure and types:** Ensures that all expected keys exist and have the correct type.
     
-- **Conversión de unidades:** Los valores con sufijos como `s`, `ms` o `d` se convierten automáticamente a tipos de duración.
+- **Unit conversion:** Values with suffixes (`s`, `ms`, `d`) are automatically converted to duration types.
     
-- **Valores por defecto:** Si alguna clave opcional falta, se aplican los valores por defecto definidos en el código fuente.
+- **Default values:** If optional keys are missing, default values from the code are used.
     
 
-En caso de errores (por ejemplo, sintaxis YAML incorrecta o rutas inexistentes), RustGuard abortará el inicio y mostrará un mensaje claro en la consola indicando el problema.
+### Error Handling
+
+- Invalid YAML syntax or nonexistent paths will prevent RustGuard from starting.
+- A clear message is displayed in the console indicating the detected error.

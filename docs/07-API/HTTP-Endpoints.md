@@ -1,32 +1,32 @@
-# Puntos Finales HTTP (REST API)
+## HTTP Endpoints (REST API)
 
-## Descripción General
+### Overview
 
-La interfaz REST de RustGuard permite a los sistemas externos (como paneles de administración o aplicaciones de terceros) consultar datos del sistema de forma eficiente. Esta API se utiliza principalmente para **lectura** de estado y métricas, no para la ejecución de comandos de sanción (los comandos se manejan vía RCON o Webhooks).
+RustGuard's REST interface allows external systems (such as administration panels or third-party applications) to query system data efficiently. This API is primarily used for **reading** status and metrics, not for executing sanction commands (commands are handled via RCON or Webhooks).
 
-**Base URL:** `http://localhost:8080/api/v1` (El puerto es configurable)
+**Base URL:** `http://localhost:8080/api/v1` (The port is configurable)
 
-## Autenticación
+### Authentication
 
-Todos los puntos finales requieren un **Token de API** configurado en el archivo `Configuration.md`. Este token debe ser proporcionado en la cabecera `Authorization` de la solicitud.
+All endpoints require an **API Token** configured in the `Configuration.md` file. This token must be provided in the request's `Authorization` header.
 
-|Cabecera|Valor|
+|Header|Value|
 |---|---|
 |`Authorization`|`Bearer <your_api_token>`|
 
-## 1. Estado del Jugador (`/player/{uuid}`)
+### 1. Player Status (`/player/{uuid}`)
 
-Este endpoint proporciona el estado actual de un jugador específico dentro del **Context System**, incluyendo su puntuación de riesgo y las últimas detecciones.
+This endpoint provides the current status of a specific player within the **Context System**, including their risk score and the latest detections.
 
-### GET /player/{uuid}
+#### GET /player/{uuid}
 
-|Parámetro de Ruta|Tipo|Descripción|
+|Route Parameter|Type|Description|
 |---|---|---|
-|`{uuid}`|String|El UUID de Mojang del jugador a consultar.|
+|`{uuid}`|String|The Mojang UUID of the player to query.|
 
-### Ejemplo de Respuesta Exitosa (200 OK)
+#### Successful Response Example (200 OK)
 
-```json
+```yaml
 {
   "uuid": "01234567-89ab-cdef-0123-456789abcdef",
   "username": "PlayerName",
@@ -47,22 +47,22 @@ Este endpoint proporciona el estado actual de un jugador específico dentro del 
 }
 ```
 
-## 2. Métricas del Sistema (`/metrics`)
+### 2. System Metrics (`/metrics`)
 
-Este endpoint devuelve métricas operacionales de RustGuard, cruciales para la monitorización de la salud del sistema.
+This endpoint returns RustGuard's operational metrics, crucial for monitoring system health.
 
-### GET /metrics
+#### GET /metrics
 
-|Campo|Tipo|Descripción|
+|Field|Type|Description|
 |---|---|---|
-|`players_monitored`|Integer|Número de jugadores activos siendo monitoreados.|
-|`detections_per_hour`|Float|Tasa promedio de detecciones de alto riesgo por hora.|
-|`api_status`|String|Estado de conexión de los servicios (`RCON`, `Database`, `Discord`).|
-|`uptime_seconds`|Integer|Tiempo que el sistema lleva corriendo.|
+|`players_monitored`|Integer|Number of active players currently being monitored.|
+|`detections_per_hour`|Float|Average rate of high-risk detections per hour.|
+|`api_status`|String|Connection status of services (`RCON`, `Database`, `Discord`).|
+|`uptime_seconds`|Integer|Time the system has been running.|
 
-### Ejemplo de Respuesta Exitosa (200 OK)
+#### Successful Response Example (200 OK)
 
-```json
+```yaml
 {
   "players_monitored": 150,
   "detections_per_hour": 12.5,
@@ -75,8 +75,8 @@ Este endpoint devuelve métricas operacionales de RustGuard, cruciales para la m
 }
 ```
 
-## Documentos Relacionados
+### Related Documents
 
-- [[Configuration]]
-- [[Database-Schema]]
-- [[07-API/Comandos-RCON]] 
+  [[Configuration]]
+  [[Database-Schema]] 
+  [[RCON-Commands]] 

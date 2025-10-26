@@ -1,46 +1,50 @@
 ### ⚠️ Troubleshooting.md
 
-# Solución de Problemas
+# Troubleshooting
 
-Este documento ayuda a diagnosticar problemas comunes durante la ejecución de RustGuard.
+This document helps diagnose common issues during RustGuard execution.
 
-## 🔌 Conexión Proxy-Servidor
-- Verificar que Minecraft está en puerto `25566`.
-- Asegurar `online-mode=false`.
-- Comprobar que `25565` no esté ocupado.
+## 🔌 Proxy-Server Connection
 
-## 🧱 Base de Datos
-- Confirmar existencia de `rustguard.db`.
-- Revisar permisos de directorio.
-- Para SQLite, comprobar que el archivo sea legible.
+- Ensure Minecraft is running on port `25566`.
+- Make sure `online-mode=false`.
+- Verify that `25565` is not in use.    
+
+## 🧱 Database
+
+- Confirm the existence of `rustguard.db`.
+- Check directory permissions.
+- For SQLite, ensure the file is readable.
 
 ## 🔑 RCON
-- Puerto `25575` accesible y contraseña correcta.
-- RCON solo local, no exponer al público.
+
+- Port `25575` should be accessible and password correct.
+- RCON is local only; do not expose it publicly.
 
 ## 🕸️ Webhooks
-- URL del webhook válida.
-- Canal de Discord con permisos de escritura.
-- Evitar superar límites de tasa.
 
-## 🧩 Ejemplos de Diagnóstico
+- Webhook URL must be valid.
+- Discord channel must have write permissions.
+- Avoid exceeding rate limits.
+
+## 🧩 Diagnostic Examples
+
 ```rust
-// Chequear conexión RCON
-let rcon = Rcon::connect("127.0.0.1:25575", "mi_contraseña")?;
+// Check RCON connection
+let rcon = Rcon::connect("127.0.0.1:25575", "my_password")?;
 rcon.cmd("say Test")?;
-````
+```
 
 ```shell
-# Test API local
+# Test local API
 curl http://localhost:25565/api/status
 ```
 
-
-### 🔄 Flujo de Resolución
+### 🔄 Resolution Flow
 
 ```mermaid
 graph TD
-    P[Problema] --> D[Diagnóstico]
-    D --> S[Solución]
-    S --> V[Verificación]
+    P[Problem] --> D[Diagnosis]
+    D --> S[Solution]
+    S --> V[Verification]
 ```

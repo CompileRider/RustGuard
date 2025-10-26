@@ -1,16 +1,16 @@
-# Interfaz RCON
+# RCON Interface
 
-## Descripción General
+## Overview
 
-La Interfaz RCON (Remote Console) es el canal de comunicación que RustGuard utiliza para ejecutar comandos de castigo (Kick, Ban, Tempban) directamente en el servidor de Minecraft. Utiliza el protocolo RCON estándar de Minecraft a través de TCP, garantizando la ejecución instantánea de las acciones.
+The RCON (Remote Console) Interface is the communication channel RustGuard uses to execute punishment commands (Kick, Ban, Tempban) directly on the Minecraft server. It uses the standard Minecraft RCON protocol over TCP, ensuring instant execution of actions.
 
-## Tecnología
+## Technology
 
-Se utiliza la crate `rcon` de Rust, la cual proporciona un cliente asíncrono que se integra perfectamente con **Tokio**.
+Rust's `rcon` crate is used, providing an asynchronous client that integrates seamlessly with **Tokio**.
 
-## Implementación de Conexión
+## Connection Implementation
 
-La interfaz se inicializa una vez al inicio y mantiene una conexión persistente si es posible, aunque el protocolo RCON a menudo requiere reconexiones por comando.
+The interface initializes once at startup and maintains a persistent connection if possible, although the RCON protocol often requires reconnecting per command.
 
 ```rust
 use tokio_rcon::Connection;
@@ -31,22 +31,19 @@ impl RconInterface {
         }
     }
 
-    /// Ejecuta un comando en el servidor.
-    /// Utiliza un timeout para evitar bloqueos del hilo principal.
+    /// Executes a command on the server.
+    /// Uses a timeout to avoid blocking the main thread.
     pub async fn execute_command(&self, command: &str) -> Result<String, RconError> {
-        let connect_future = Connection::connect(
-            &self.address, 
-            &self.password
-        );
+        let connect_future = Connection::connect(&self.address, &self.password);
         
-        // Conectar y autenticar
+        // Connect and authenticate
         let mut conn = match tokio::time::timeout(self.timeout, connect_future).await {
             Ok(Ok(c)) => c,
             Ok(Err(e)) => return Err(RconError::ConnectionFailed(e.to_string())),
             Err(_) => return Err(RconError::Timeout("RCON connection timeout".to_string())),
         };
 
-        // Enviar comando
+        // Send command
         let response = match tokio::time::timeout(self.timeout, conn.cmd(command)).await {
             Ok(Ok(res)) => res,
             Ok(Err(e)) => return Err(RconError::CommandFailed(e.to_string())),
@@ -59,25 +56,24 @@ impl RconInterface {
 }
 ```
 
+## Usage in the Action Handler
 
-## Uso en el Action Handler
-
-El `Action Handler` utiliza la función `execute_command` para aplicar castigos de alta confianza.
+The `Action Handler` uses the `execute_command` function to apply high-confidence punishments.
 
 - **Kick:** `kick <username> [reason]`
     
 - **Ban:** `ban <username> [reason]`
     
 
-**Ejemplo de Comando de Kick:**
+**Example Kick Command:**
 
 ```
 kick PlayerName [RustGuard] Kicked for high-confidence violation: speed_hack
 ```
 
-## Configuración Requerida
+## Required Configuration
 
-Para que RCON funcione, el servidor de Minecraft debe tener `enable-rcon=true` y `rcon.password` configurados en `server.properties`. Los detalles de conexión se definen en `config.yml`.
+For RCON to work, the Minecraft server must have `enable-rcon=true` and `rcon.password` set in `server.properties`. Connection details are defined in `config.yml`.
 
 ```yaml
 integration:
@@ -88,7 +84,7 @@ integration:
     timeout: 5 # RCON command timeout in seconds
 ```
 
+## Related Documents
 
-## Documentos Relacionados
-
-[[Action-Handler]] [[Configuration]]
+[[Action-Handler]] 
+[[Configuration]] 

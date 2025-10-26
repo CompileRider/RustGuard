@@ -1,70 +1,70 @@
-## Detección de Fly-Hack
+## Fly-Hack Detection
 
-### Visión General
+### Overview
 
-El detector de **Fly-Hack** analiza el movimiento vertical de un jugador (Y-Delta) a lo largo del tiempo, enfocándose especialmente en desviaciones respecto al modelo físico esperado del servidor de Minecraft. Es una verificación con **estado** (stateful), ya que depende del historial de posiciones almacenadas del jugador.
+The **Fly-Hack** detector analyzes a player's vertical movement (Y-Delta) over time, focusing on deviations from the expected physics model of the Minecraft server. This is a **stateful** check since it relies on the player's stored position history.
 
-### Principio Central de Detección
+### Core Detection Principle
 
-La lógica principal consiste en comparar la distancia vertical observada entre dos paquetes (Y_delta) con la altura máxima que el jugador podría alcanzar de forma natural, considerando la gravedad y la velocidad del salto.
+The main logic compares the vertical distance observed between two packets (Y_delta) with the maximum height a player could naturally reach, considering gravity and jump velocity.
 
-$$\text{EsSospechoso} = Y_{\text{delta observada}} > \text{AlturaMáxSalto}_{\text{Contexto}}$$
+$$\text{IsSuspicious} = Y_{\text{observed delta}} > \text{MaxJumpHeight}_{\text{Context}}$$
 
-### Cálculo de la Altura Máxima de Salto
+### Maximum Jump Height Calculation
 
-La altura máxima permitida es **dinámica** y se ajusta en función del estado actual del jugador, obtenido desde el **Context System**.
+The maximum allowed jump height is **dynamic** and adjusts based on the player's current state, retrieved from the **Context System**.
 
-|Factor de Estado|Modificador|Descripción|
+|State Factor|Modifier|Description|
 |---|---|---|
-|Velocidad base de salto|+0.42|Impulso vertical estándar al saltar.|
-|Efecto de Jump Boost|+0.1 × (Nivel + 1)|Aumenta la altura de salto según el nivel de la poción.|
-|Corriendo (Sprinting)|+0.08|Incrementa ligeramente la altura al correr.|
-|Agua/Escaleras|× 0.0|Se ignora el movimiento vertical si el jugador está en agua o escalera.|
-|Elytra/Planeo|Ignorar chequeo|Se omite la detección si el jugador está planeando.|
+|Base Jump Velocity|+0.42|Standard vertical impulse when jumping.|
+|Jump Boost Effect|+0.1 × (Level + 1)|Increases jump height based on potion level.|
+|Sprinting|+0.08|Slightly increases jump height while sprinting.|
+|Water/Ladders|× 0.0|Vertical movement is ignored if the player is in water or on a ladder.|
+|Elytra/Gliding|Ignore check|Detection is skipped if the player is gliding.|
 
-### Estructura Simplificada para el Cálculo de Salto Máximo
+### Simplified Maximum Jump Calculation Structure
 
 ```rust
 fn calculate_max_jump(&self, player: &PlayerState) -> f64 {
     let mut max_jump = self.config.base_jump_velocity; // ~0.42
 
-    // Aplicar efecto Jump Boost
+    // Apply Jump Boost effect
     if let Some(effect) = player.active_effects.get("jump_boost") {
         max_jump += self.config.jump_boost_multiplier * (effect.amplifier as f64 + 1.0);
     }
 
-    // Aplicar bono por sprint
+    // Apply sprinting bonus
     if player.is_sprinting {
         max_jump += self.config.sprint_jump_bonus;
     }
 
-    // Añadir pequeña tolerancia para imprecisiones de punto flotante y latencia
+    // Add small tolerance for floating-point inaccuracies and latency
     max_jump + self.config.y_tolerance
 }
 ```
 
-### Mitigación de Casos Extremos (Falsos Positivos)
+### Edge Case Mitigation (False Positives)
 
-La detección de vuelo es propensa a falsos positivos debido a interacciones ambientales. Por ello, el detector verifica los siguientes factores mitigantes:
+Fly detection is prone to false positives due to environmental interactions. The detector checks the following mitigating factors:
 
-- **Agua/Lava:** Si `player.in_water` o `player.in_lava` es verdadero, se omite el chequeo ya que el movimiento no es estándar.
+- **Water/Lava:** If `player.in_water` or `player.in_lava` is true, the check is skipped.
     
-- **Monturas:** Si el jugador está montado en una entidad (caballo, bote, etc.), se ignora el chequeo porque el servidor controla la física vertical.
+- **Mounts:** If the player is riding an entity (horse, boat, etc.), the check is ignored because vertical movement is governed by server physics.
     
-- **"On Ground" del cliente:** Si el cliente reporta `player.on_ground = true`, el Y-Delta puede deberse a una pequeña colisión con bloques. Solo se marca como sospechoso si el Y-Delta excede la altura de paso estándar (0.6).
+- **Client "On Ground":** If `player.on_ground = true`, the Y-Delta may be caused by a small block collision. Only flagged if Y-Delta exceeds standard step height (0.6).
     
-- **Teletransportación:** Se comprueba si hubo un cambio instantáneo y grande en la posición, indicando teletransporte. En ese caso, el Proxy Layer reinicia el historial de movimiento del jugador.
+- **Teleportation:** Detects large instant position changes. The Proxy Layer resets the player's movement history in this case.
     
 
-### Puntuación de Confianza
+### Confidence Scoring
 
-La **confianza** se calcula en función de cuánto excede el Y-Delta observado respecto a la altura máxima permitida.
+**Confidence** is calculated based on how much the observed Y-Delta exceeds the maximum allowed jump height.
 
-$$\text{Confianza} = \left( \frac{Y_{\text{delta}}}{\text{AlturaMáxSalto}} - 1 \right) \times 2.0$$
+$$\text{Confidence} = \left( \frac{Y_{\text{delta}}}{\text{MaxJumpHeight}} - 1 \right) \times 2.0$$
 
-El resultado se limita entre $0.0$ y $1.0$. Si la velocidad vertical observada es el doble de la máxima permitida, se obtiene una puntuación de confianza de $1.0$.
+The result is clamped between $0.0$ and $1.0$. If the observed vertical velocity is twice the allowed maximum, the confidence score is `1.0`.
 
-### Documentos Relacionados
+### Related Documents
 
 - [[Speed-Hack]]
 - [[KillAura]]
