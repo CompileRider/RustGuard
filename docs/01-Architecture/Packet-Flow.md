@@ -234,6 +234,6 @@ if player.username == "DebugPlayer" {
 ```
 
 ## Related Documents
-- [[Architecture/Overview]]
-- [[Core-Components/Proxy-Layer]]
-- [[Core-Components/Detection-Engine]] 
+- [Architecture/Overview](./Overview.md)
+- [Core-Components/Proxy-Layer](../02-Core-Components/Proxy-Layer.md)
+- [Core-Components/Detection-Engine](../02-Core-Components/Detection-Engine.md)
