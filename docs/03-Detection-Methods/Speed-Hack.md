@@ -297,8 +297,3 @@ whitelist:
 - **Memory:** ~200 bytes per player
 - **Accuracy:** >99% (with proper config)
 - **False Positives:** <0.1% (with context system)
-
-## Related Documents
-- [[False-Positives]]
-- [[Context-System]]
-- [[Fly-Hack]]
