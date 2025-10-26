@@ -47,6 +47,6 @@ The following results are based on tests run on a standard VM with 4 vCPUs and 8
 
 ### Related Documents
 
-[[Database-Schema]]
-[[Context-System]]
-[[Testing]] 
+[Database-Schema](../01-Architecture/Database-Schema.md)
+[Context-System](../02-Core-Components/Context-System.md)
+[Testing](./Testing.md)
