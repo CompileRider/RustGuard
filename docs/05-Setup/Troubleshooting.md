@@ -15,7 +15,7 @@ This document helps diagnose common issues during RustGuard execution.
 
 
 - Make sure Minecraft is running on the same port as your server.
-- 
+
 - Make sure `online-mode=false`.
 
 - Check that the port is not in use
