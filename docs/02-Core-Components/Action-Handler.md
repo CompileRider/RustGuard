@@ -95,7 +95,10 @@ async fn log_violation(&self, player: &PlayerState, detection: &Detection, actio
 
 ## Related Documents
 
-[Detection-Engine](./Detection-Engine.md) 
-[Integration/RCON-Interface](../04-Integration/RCON-Setup.md) 
+[Detection-Engine](./Detection-Engine.md)
+
+[Integration/RCON-Interface](../04-Integration/RCON-Setup.md)
+
 [Architecture/Database-Schema](../01-Architecture/Database-Schema.md)
+
 [Integration/Discord-Webhooks](../04-Integration/Discord-Webhooks.md)
