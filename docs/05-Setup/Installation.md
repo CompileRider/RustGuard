@@ -316,6 +316,6 @@ rm rustguard.db
 - [[Integration/RCON-Setup|Advanced RCON setup]]
 
 ## Related Documents
-- [[Configuration]]
-- [[Troubleshooting]]
-- [[First-Run]]
+- [Configuration](./Configuration.md)
+- [Troubleshooting](./Troubleshooting.md)
+- [First-Run](./First-Run.md)
