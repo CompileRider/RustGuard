@@ -996,7 +996,7 @@ false_positive_prevention:
 ---
 
 ## Related Documents
-- [[Speed-Hack]]
-- [[Fly-Hack]]
-- [[KillAura]]
-- [[XRay]]
+- [Speed-Hack](./Speed-Hack.md)
+- [Fly-Hack](./Fly-Hack.md)
+- [KillAura](./KillAUra.md)
+- [XRay](./XRay.md)
